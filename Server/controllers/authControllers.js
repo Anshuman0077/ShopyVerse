@@ -8,10 +8,10 @@ import jwt from "jsonwebtoken";
 // Registration /////
 export const registration = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required", success: false });
     }
 
@@ -29,6 +29,7 @@ export const registration = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role
     });
 
     res.status(201).json({
@@ -68,7 +69,7 @@ export const login = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Email not found, please register",
       });
     }
 
@@ -77,7 +78,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Incorrect password ",
       });
     }
 
@@ -86,7 +87,15 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // ✅ Return success
+      res.cookie("token", token, {
+      httpOnly: true, // prevents JS access for security
+      secure: process.env.NODE_ENV === "production", // cookie only sent over https in production
+      sameSite: "strict", // protects from CSRF attacks
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
+    });
+     
+
+
     res.status(200).json({
       success: true,
       message: "Login successful",

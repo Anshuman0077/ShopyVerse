@@ -39,7 +39,7 @@ export const creatrProduct = async (req, res) => {
   }
 };
 
-// get all prdoucts ////
+// get all products ////
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
