@@ -55,7 +55,7 @@ export const requestReturn = async (req, res) => {
         if(!order) {
             res.status(404).json({success: false, message:" Order not found"})
         }
-         if(order.status !== OrderStatus.DELEVERED) {
+         if(order.status !== OrderStatus.DELIVERED) {
             return res.status(400).json({ message: "Return only allowed for delivered orders" });
          }
          order.status = OrderStatus.RETURN_REQUESTED;
@@ -100,22 +100,22 @@ export const approveRetrun = async (req, res) => {
 
 //// testing devlivered //// 
 
-export const markOrderAsDelivered = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
+// export const markOrderAsDelivered = async (req, res) => {
+//   try {
+//     const order = await Order.findById(req.params.id);
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
+//     if (!order) {
+//       return res.status(404).json({ message: "Order not found" });
+//     }
 
-    order.status = OrderStatus.DELIVERED;
-    await order.save();
+//     order.status = OrderStatus.DELIVERED;
+//     await order.save();
 
-    res.status(200).json({
-      message: "✅ Order manually marked as delivered",
-      order,
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+//     res.status(200).json({
+//       message: "✅ Order manually marked as delivered",
+//       order,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
