@@ -6,7 +6,7 @@ export const PlaceOrder = async (req, res) => {
   const { items, totalAmount, address } = req.body;
 
   try {
-    // ✅ Basic Validations
+    //  Basic Validations
     if (!items || items.length === 0) {
       return res.status(400).json({ success: false, message: "No items in the order" });
     }
@@ -19,7 +19,7 @@ export const PlaceOrder = async (req, res) => {
       return res.status(400).json({ success: false, message: "Shipping address is required" });
     }
 
-    // ✅ Create new Order
+    // Create new Order
     const newOrder = new Order({
       user: userId,
       items,

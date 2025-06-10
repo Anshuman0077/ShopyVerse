@@ -50,12 +50,29 @@ const OrderSchema = new mongoose.Schema(
         },
       },
     ],
+    paymentIntentId: {
+      type: String,
+      required: true, // required if payment is mandatory
+    },
     refund: {
       isRequested: { type: Boolean, default: false },
       isProcessed: { type: Boolean, default: false },
       reason: { type: String },
       refundedAt: { type: Date },
+      stripeRefundId: { type: String }, 
+      refundAmount: { type: Number },
     },
+    refundStatus: {
+      type: String,
+      enum: [
+        OrderStatus.REFUND_NOT_REQUESTED,
+        OrderStatus.REFUND_REQUESTED,
+        OrderStatus.REFUND_APPROVED,
+        OrderStatus.REFUND_DECLINED, ,
+      ],
+      default: OrderStatus.REFUND_NOT_REQUESTED,
+    },
+    refundNote: { type: String, default: "" },
   },
   { timestamps: true }
 );

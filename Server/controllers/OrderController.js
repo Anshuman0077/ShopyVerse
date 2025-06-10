@@ -10,7 +10,7 @@ export const forceUpdateOrders = async (req , res) => {
         });
 
     } catch (errt) {
-        console.log("❌ Error in forceUpdateOrders:", errt);
+        console.log("Error in forceUpdateOrders:", errt);
         res.status(500).json({
             success: false,
             message: errt.message || "Internal server error",
@@ -18,4 +18,6 @@ export const forceUpdateOrders = async (req , res) => {
         
     }
 };
+
+
 
